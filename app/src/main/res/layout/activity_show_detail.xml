@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ShowDetailActivity">
+
+    <TextView
+        android:id="@+id/detailTitile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="sjcbsdbcsdbksdjbdkbv"
+        android:textColor="#0E0E0E"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/detailFoodFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="detailFoodFee"
+        android:textColor="#FF9800"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/detailTitile"
+        app:layout_constraintStart_toStartOf="@+id/detailTitile"
+        app:layout_constraintTop_toBottomOf="@+id/detailTitile" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="$"
+        android:textColor="#1B0707"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/detailFoodFee"
+        app:layout_constraintEnd_toStartOf="@+id/detailFoodFee" />
+
+    <ImageView
+        android:id="@+id/detailFoodImg"
+        android:layout_width="290dp"
+        android:layout_height="259dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/detailPlusCart"
+        app:layout_constraintEnd_toEndOf="@+id/detailTitile"
+        app:layout_constraintStart_toStartOf="@+id/detailTitile"
+        app:layout_constraintTop_toBottomOf="@+id/detailFoodFee"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/detailNumOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="1"
+        android:textColor="#781616"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/detailFoodImg"
+        app:layout_constraintStart_toStartOf="@+id/detailFoodImg"
+        app:layout_constraintTop_toBottomOf="@+id/detailFoodImg" />
+
+    <TextView
+        android:id="@+id/detailPlusCart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/detailNumOrder"
+        app:layout_constraintStart_toEndOf="@+id/detailNumOrder"
+        app:layout_constraintTop_toTopOf="@+id/detailNumOrder" />
+
+    <TextView
+        android:id="@+id/detailMinusCart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/minus"
+        app:layout_constraintBottom_toBottomOf="@+id/detailNumOrder"
+        app:layout_constraintEnd_toStartOf="@+id/detailNumOrder"
+        app:layout_constraintTop_toTopOf="@+id/detailNumOrder" />
+
+    <TextView
+        android:id="@+id/detailFoodDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="detailFoodDetail"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="@+id/detailNumOrder"
+        app:layout_constraintStart_toStartOf="@+id/detailNumOrder"
+        app:layout_constraintTop_toBottomOf="@+id/detailNumOrder" />
+
+    <TextView
+        android:id="@+id/detail_addToCartBtn"
+        android:layout_width="289dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/blue_button"
+        android:paddingTop="8dp"
+        android:text="+ Thêm vào giỏ hàng"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/detailFoodDetail"
+        app:layout_constraintStart_toStartOf="@+id/detailFoodDetail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
