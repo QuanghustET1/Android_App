@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.project_androidapp.Adapter.categoryAdapter;
 import com.android.project_androidapp.Adapter.popularAdapter;
 import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.categoryList;
 import com.android.project_androidapp.Domain.foodDomain;
+import com.android.project_androidapp.Domain.userDomain;
 import com.android.project_androidapp.R;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.AnimationTypes;
@@ -28,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerPopularViewFood;
     private RecyclerView.Adapter recyclerViewFoodAdapter;
     private FloatingActionButton btnShowListCart;
+    private TextView welcomeText;
 //    private ManageCart manageCart;
     private Database Database;
     private ImageSlider imageSlider;
+    private LinearLayout profileBtn;
+    protected static userDomain user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +48,24 @@ public class MainActivity extends AppCompatActivity {
         popularViewFood();
         showListCartManager();
         showSlider();
+        this.user = (userDomain) getIntent().getSerializableExtra("user");
+        setWelcomeText();
+        forwardToProfilePage();
+    }
+
+    private void forwardToProfilePage() {
+        this.profileBtn = findViewById(R.id.profile);
+        this.profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
+    }
+
+    private void setWelcomeText() {
+        this.welcomeText = findViewById(R.id.welcomeText);
+        this.welcomeText.setText("Xin chào "+this.getuserName());
     }
 
     private void showSlider() {
@@ -106,5 +130,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new categoryAdapter(arrayList);
         //Set Adapter vao recyclerViewCategoryList
         recyclerViewCategoryList.setAdapter(recyclerAdapter);
+    }
+    public String getuserName(){
+        return this.user.getUserName();
     }
 }

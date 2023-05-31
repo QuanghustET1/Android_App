@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 //SQLiteOpenHelper cho phep ke thua lai va custom lai cach crud db theo cach rieng cua minh
 public class Database extends SQLiteOpenHelper {
-    private static final String DB_NAME = "Database";
+    private static final String DB_NAME = "DB";
     private static final int DB_VERSION = 1;
     private static final String DB_TABLE_CARTMANAGE = "cartTable";
     private static final String DB_TABLE_CATEGORYITEMLIST = "categoryTable";
@@ -27,6 +27,7 @@ public class Database extends SQLiteOpenHelper {
     private static String description = "description";
     private static String fee = "fee";
     private static String numberInCart = "numberInCart";
+    private static String userCartID = "userCartID";
     private static String categoryID = "categoryID";
     //ten cac field trong user table
     private static String UserName = "userName";
@@ -37,7 +38,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String createTable_query_cartManage = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER)", this.DB_TABLE_CARTMANAGE, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID);
+        String createTable_query_cartManage = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER, %s STRING)", this.DB_TABLE_CARTMANAGE, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID, this.userCartID);
         String createTable_query_categoryItemList = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER)", this.DB_TABLE_CATEGORYITEMLIST, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID);
         String create_UserTable = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING)", this.DB_USER, this.UserName, this.UserPassword);
         sqLiteDatabase.execSQL(createTable_query_cartManage);
@@ -115,7 +116,7 @@ public class Database extends SQLiteOpenHelper {
         }
     } 
 
-    public void insertFoodToCart(foodDomain food){
+    public void insertFoodToCart(foodDomain food, String usercartID_){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues record = new ContentValues();
         record.put("title", food.getTitle());
@@ -124,6 +125,7 @@ public class Database extends SQLiteOpenHelper {
         record.put("fee", food.getFee());
         record.put("numberInCart", food.getNumberInCart());
         record.put("categoryID", food.getCategoryID());
+        record.put("userCartID", usercartID_);
         db.insert(DB_TABLE_CARTMANAGE, null, record);
         db.close();
     }
@@ -158,6 +160,26 @@ public class Database extends SQLiteOpenHelper {
         newFood.put("categoryID", food.getCategoryID());
         sqLiteDatabase.update(DB_TABLE_CARTMANAGE,newFood,title+"=?", new String[]{food.getTitle()});
         sqLiteDatabase.close();
+    }
+    public ArrayList<foodDomain> getListFoodcartByUser(String username){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        ArrayList<foodDomain> arrFood = new ArrayList<>();
+        String query = "SELECT * FROM "+this.DB_TABLE_CARTMANAGE;
+        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                if(cursor.getString(6).equals(username)){
+                    foodDomain food = new foodDomain(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5));
+                    arrFood.add(food);
+                }
+                cursor.moveToNext();
+            }
+            return arrFood;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
     public void deleteFoodinCart(int position){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();

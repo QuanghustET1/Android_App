@@ -15,6 +15,8 @@ import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.userDomain;
 import com.android.project_androidapp.R;
 
+import java.io.Serializable;
+
 public class LoginActivity extends AppCompatActivity {
     private TextView registerPage;
     private EditText inputUsername;
@@ -43,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "User or Pass not found!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", new userDomain(userName, userPassword)));
                 }
             }
         });

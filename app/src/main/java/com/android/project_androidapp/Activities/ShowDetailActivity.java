@@ -64,7 +64,7 @@ public class ShowDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i("addToCart", "clicked");
                 object.setNumberInCart(ShowDetailActivity.this.numOder);
-                database_.insertFoodToCart(object);
+                database_.insertFoodToCart(object, MainActivity.user.getUserName());
                 startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", database_.getListFoodFromCart()));
             }
         });

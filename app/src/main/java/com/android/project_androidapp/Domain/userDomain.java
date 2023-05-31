@@ -1,6 +1,8 @@
 package com.android.project_androidapp.Domain;
 
-public class userDomain {
+import java.io.Serializable;
+
+public class userDomain implements Serializable {
     private String userName;
     private String userPassword;
 

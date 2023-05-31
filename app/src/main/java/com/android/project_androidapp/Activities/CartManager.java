@@ -55,7 +55,7 @@ public class CartManager extends AppCompatActivity {
 
     private void showListItem() {
         this.listItemInCart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        ArrayList<foodDomain> arrFood = (ArrayList<foodDomain>)getIntent().getSerializableExtra("cartManage");
+        ArrayList<foodDomain> arrFood = this.database_.getListFoodcartByUser(MainActivity.user.getUserName());
         this.listItemAdapter = new listCartItemAdapter(arrFood, this.database_);
         this.listItemInCart.setAdapter(this.listItemAdapter);
         this.listItemAdapter.setOnItemClickListener(new listCartItemAdapter.OnItemClickListener() {
