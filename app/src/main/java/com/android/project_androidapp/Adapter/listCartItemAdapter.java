@@ -94,7 +94,7 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                     foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() - 1);
                     holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                     holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                    dbManageCart.updateFoodinCart(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
+                    dbManageCart.updateFoodinCart(foodDomains.get(n));
                 }
             }
         });
@@ -104,7 +104,7 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                 foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() + 1);
                 holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                 holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                dbManageCart.updateFoodinCart(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
+                dbManageCart.updateFoodinCart(foodDomains.get(n));
             }
         });
 //        holder.deleteItem.setOnClickListener(new View.OnClickListener() {

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 //SQLiteOpenHelper cho phep ke thua lai va custom lai cach crud db theo cach rieng cua minh
 public class Database extends SQLiteOpenHelper {
-    private static final String DB_NAME = "DB";
+    private static final String DB_NAME = "DB_app";
     private static final int DB_VERSION = 1;
     private static final String DB_TABLE_CARTMANAGE = "cartTable";
     private static final String DB_TABLE_CATEGORYITEMLIST = "categoryTable";
@@ -27,6 +27,7 @@ public class Database extends SQLiteOpenHelper {
     private static String description = "description";
     private static String fee = "fee";
     private static String numberInCart = "numberInCart";
+    private static String itemCartID = "itemCartID";
     private static String userCartID = "userCartID";
     private static String categoryID = "categoryID";
     //ten cac field trong user table
@@ -38,7 +39,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String createTable_query_cartManage = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER, %s STRING)", this.DB_TABLE_CARTMANAGE, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID, this.userCartID);
+        String createTable_query_cartManage = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, %s STRING, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER, %s STRING)", this.DB_TABLE_CARTMANAGE, this.itemCartID, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID, this.userCartID);
         String createTable_query_categoryItemList = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING, %s STRING, %s DOUBLE, %s INTEGER, %s INTEGER)", this.DB_TABLE_CATEGORYITEMLIST, this.title, this.pic, this.description, this.fee, this.numberInCart, this.categoryID);
         String create_UserTable = String.format("CREATE TABLE %s(%s STRING PRIMARY KEY, %s STRING)", this.DB_USER, this.UserName, this.UserPassword);
         sqLiteDatabase.execSQL(createTable_query_cartManage);
@@ -117,17 +118,46 @@ public class Database extends SQLiteOpenHelper {
     } 
 
     public void insertFoodToCart(foodDomain food, String usercartID_){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues record = new ContentValues();
-        record.put("title", food.getTitle());
-        record.put("pic", food.getPic());
-        record.put("description", food.getDescription());
-        record.put("fee", food.getFee());
-        record.put("numberInCart", food.getNumberInCart());
-        record.put("categoryID", food.getCategoryID());
-        record.put("userCartID", usercartID_);
-        db.insert(DB_TABLE_CARTMANAGE, null, record);
-        db.close();
+        foodDomain newFood = getFoodfromCartManage(food.getTitle(), usercartID_);
+        if(newFood != null){
+            newFood.setNumberInCart(food.getNumberInCart()+newFood.getNumberInCart());
+            this.updateFoodinCart(newFood);
+        }
+        else{
+            SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+            ContentValues obj = new ContentValues();
+            obj.put("title", food.getTitle());
+            obj.put("pic", food.getPic());
+            obj.put("description", food.getDescription());
+            obj.put("fee", food.getFee());
+            obj.put("numberInCart", food.getNumberInCart());
+            obj.put("categoryID", food.getCategoryID());
+            obj.put("userCartID", usercartID_);
+            sqLiteDatabase.insert(DB_TABLE_CARTMANAGE,null,obj);
+            sqLiteDatabase.close();
+        }
+//        ArrayList<foodDomain> foodDomainArrayList = this.getListFoodFromCart();
+//        boolean exist = false;
+//        for(foodDomain foodDomain : foodDomainArrayList){
+//            if(foodDomain.getTitle().equals(food.getTitle())){
+//                this.updateFoodinCart(foodDomain,foodDomain.getNumberInCart()+food.getNumberInCart());
+//                exist = true;
+//                break;
+//            }
+//        }
+//        if(exist == false){
+//            SQLiteDatabase db = this.getWritableDatabase();
+//            ContentValues record = new ContentValues();
+//            record.put("title", food.getTitle());
+//            record.put("pic", food.getPic());
+//            record.put("description", food.getDescription());
+//            record.put("fee", food.getFee());
+//            record.put("numberInCart", food.getNumberInCart());
+//            record.put("categoryID", food.getCategoryID());
+//            record.put("userCartID", usercartID_);
+//            db.insert(DB_TABLE_CARTMANAGE, null, record);
+//            db.close();
+//        }
     }
     public foodDomain getFoodFromCart(String foodName){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -135,7 +165,7 @@ public class Database extends SQLiteOpenHelper {
         if(cursor != null){
             cursor.moveToFirst();
         }
-        return new foodDomain(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5));
+        return new foodDomain(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5), cursor.getInt(6));
     }
     public ArrayList<foodDomain> getListFoodFromCart(){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -144,13 +174,13 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         cursor.moveToFirst();
         while(cursor.isAfterLast() == false){
-            foodDomain food = new foodDomain(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5));
+            foodDomain food = new foodDomain(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5), cursor.getInt(6));
             foodList.add(food);
             cursor.moveToNext();
         }
         return foodList;
     }
-    public void updateFoodinCart(foodDomain food, int numberInCart){
+    public void updateFoodinCart(foodDomain food){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues newFood = new ContentValues();
         newFood.put("pic", food.getPic());
@@ -169,8 +199,8 @@ public class Database extends SQLiteOpenHelper {
         try{
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-                if(cursor.getString(6).equals(username)){
-                    foodDomain food = new foodDomain(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5));
+                if(cursor.getString(7).equals(username)){
+                    foodDomain food = new foodDomain(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5), cursor.getInt(6));
                     arrFood.add(food);
                 }
                 cursor.moveToNext();
@@ -215,13 +245,21 @@ public class Database extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
     }
-    public foodDomain getFoodfromCategory(String foodName){
+    public foodDomain getFoodfromCartManage(String foodName, String username){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(DB_TABLE_CATEGORYITEMLIST, null,title+"=?",new String[]{foodName},null,null,null);
+        Cursor cursor = sqLiteDatabase.query(DB_TABLE_CARTMANAGE, null,title+"=? AND "+userCartID+"=?",new String[]{foodName, username},null,null,null);
         if(cursor != null){
-            cursor.moveToFirst();
+            try{
+                cursor.moveToFirst();
+                return new foodDomain(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5), cursor.getInt(6));
+            }
+            catch (Exception e){
+                return null;
+            }
         }
-        return new foodDomain(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5));
+        else{
+            return null;
+        }
     }
     public ArrayList<foodDomain> getListFoodfromCategory(){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();

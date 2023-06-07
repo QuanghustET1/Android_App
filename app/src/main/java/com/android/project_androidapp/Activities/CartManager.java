@@ -36,7 +36,7 @@ public class CartManager extends AppCompatActivity {
     }
 
     public double sumOfCostListItem(Database dbManageCart){
-        ArrayList<foodDomain> arrFood = dbManageCart.getListFoodFromCart();
+        ArrayList<foodDomain> arrFood = dbManageCart.getListFoodcartByUser(MainActivity.user.getUserName());
         double sumCost = 0;
         for (int i = 0; i < arrFood.size(); i++) {
             sumCost += arrFood.get(i).getFee()*arrFood.get(i).getNumberInCart();
