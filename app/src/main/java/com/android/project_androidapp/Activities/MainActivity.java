@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.project_androidapp.Adapter.categoryAdapter;
 import com.android.project_androidapp.Adapter.popularAdapter;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageSlider imageSlider;
     private LinearLayout profileBtn;
     protected static userDomain user;
+    private long backPressedTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
         this.user = (userDomain) getIntent().getSerializableExtra("user");
         setWelcomeText();
         forwardToProfilePage();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(this.backPressedTime + 2000 > System.currentTimeMillis()){
+            finishAffinity();
+        }
+        else{
+            Toast.makeText(MainActivity.this.getApplicationContext(), "Back lần nữa để thoát ứng dụng", Toast.LENGTH_SHORT).show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 
     private void forwardToProfilePage() {
@@ -85,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         this.btnShowListCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CartManager.class).putExtra("cartManage", MainActivity.this.Database.getListFoodFromCart()));
+                startActivity(new Intent(MainActivity.this, CartManager.class));
             }
         });
     }

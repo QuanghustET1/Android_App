@@ -18,6 +18,17 @@ public class foodDomain implements Serializable {
         this.numberInCart = numberInCart;
         this.categoryID = categoryID;
     }
+    public foodDomain(int categoryID, String description, Double fee, int numberInCart, String pic, String title) {
+        this.title = title;
+        this.pic = pic;
+        this.description = description;
+        this.fee = fee;
+        this.numberInCart = numberInCart;
+        this.categoryID = categoryID;
+    }
+
+    public foodDomain() {
+    }
 
     public String getTitle() {
         return title;

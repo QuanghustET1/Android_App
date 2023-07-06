@@ -15,6 +15,12 @@
         android:theme="@style/Theme.Project_AndroidApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.OrderSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.OrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ProfileActivity"
             android:exported="false" />
         <activity

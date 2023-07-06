@@ -62,15 +62,23 @@ public class popularAdapter extends RecyclerView.Adapter<popularAdapter.ViewHold
                 break;
             }
             case 3:{
-                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background3));
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background4));
                 break;
             }
             case 4:{
-                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background2));
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background5));
                 break;
             }
             case 5:{
-                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background1));
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background3));
+                break;
+            }
+            case 6:{
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background4));
+                break;
+            }
+            case 7:{
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background5));
                 break;
             }
         }

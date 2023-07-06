@@ -5,13 +5,13 @@
     android:id="@+id/constrainItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:elevation="5dp">
+    android:layout_margin="10dp"
+    android:elevation="8dp">
 
     <ImageView
         android:id="@+id/avtItem"
-        android:layout_width="134dp"
-        android:layout_height="126dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -41,7 +41,9 @@
         android:layout_height="29dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="48dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/minus"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/nameItem"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/avtItem"
@@ -120,21 +122,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/totalcostItem"
         app:layout_constraintEnd_toStartOf="@+id/totalcostItem"
         app:layout_constraintTop_toTopOf="@+id/totalcostItem" />
-
-    <TextView
-        android:id="@+id/deleteItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#CDDC39"
-        android:text="Xóa Item"
-        android:textColor="#DC0C0C"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/totalcostItem"
-        app:layout_constraintStart_toStartOf="@+id/totalcostItem"
-        app:layout_constraintTop_toBottomOf="@+id/totalcostItem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

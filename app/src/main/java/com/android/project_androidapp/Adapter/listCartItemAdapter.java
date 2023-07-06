@@ -11,10 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.project_androidapp.Activities.MainActivity;
 import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -22,30 +25,24 @@ import java.util.ArrayList;
 public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapter.ViewHolder> {
     //Tao ra list category de truyen vao ham tao de nhan tham so la list category truyen vao tu ben kia
     ArrayList<foodDomain> foodDomains;
-    Database dbManageCart;
-    OnItemClickListener onItemClickListener;
+    DatabaseReference dbManageCart;
+    String userCur;
 
     //tao ra mot category duoc cau hinh va co data la list category
-    public listCartItemAdapter(ArrayList<foodDomain> foodDomains, Database dbManageCart) {
+    public listCartItemAdapter(ArrayList<foodDomain> foodDomains, String userCur) {
         this.foodDomains = foodDomains;
-        this.dbManageCart = dbManageCart;
-    }
-
-    //Tao interface cho onclickItem
-    public interface OnItemClickListener{
-        void OnItemClick(int position);
+        this.dbManageCart = FirebaseDatabase.getInstance().getReference("db_cartManage");
+        this.userCur = userCur;
     }
 
     //Tao ham de su dung, anh xa this.onItemClickListener voi out class
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
-    }
+
 
     @Override
     public listCartItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //ham nay giong kieu set Layout nao de lam viec, giong ham setContentView(R.layout.activity_main) trong ham main
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
-        return new ViewHolder(inflate, onItemClickListener);
+        return new ViewHolder(inflate);
     }
 
     //ham nay de cau hinh xem cac category se duoc hien thi nhu the nao
@@ -94,7 +91,8 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                     foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() - 1);
                     holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                     holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                    dbManageCart.updateFoodinCart(foodDomains.get(n));
+//                    dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).setValue(foodDomains.get(n));
+                    dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).child("numberInCart").setValue(foodDomains.get(n).getNumberInCart());
                 }
             }
         });
@@ -104,17 +102,9 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                 foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() + 1);
                 holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                 holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                dbManageCart.updateFoodinCart(foodDomains.get(n));
+                dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).child("numberInCart").setValue(foodDomains.get(n).getNumberInCart());
             }
         });
-//        holder.deleteItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                cartManager.deleteFood(foodDomains.get(n));
-//                Toast.makeText(holder.itemView.getContext(), "Deleted Item", Toast.LENGTH_SHORT).show();
-//                notifyDataSetChanged();
-//            }
-//        });
     }
 
 
@@ -133,10 +123,9 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
         TextView nameItem;
         TextView minusItem, plusItem, numItem;
         TextView costItem, totalcostItem;
-        TextView deleteItem;
         //Constructor
         //Ham nay la ham tao attributes, init View và setOnClick(dang khai bao, trien khai o cho khac)
-        public ViewHolder(View inflate, OnItemClickListener onItemClickListener) {
+        public ViewHolder(View inflate) {
             super(inflate);
             constrainItemLayout = itemView.findViewById(R.id.constrainItemLayout);
             avtItem = itemView.findViewById(R.id.avtItem);
@@ -146,23 +135,6 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
             numItem = itemView.findViewById(R.id.numItem);
             costItem = itemView.findViewById(R.id.costItem);
             totalcostItem = itemView.findViewById(R.id.totalcostItem);
-            deleteItem = itemView.findViewById(R.id.deleteItem);
-            deleteItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.OnItemClick(getAdapterPosition());
-                }
-            });
         }
-        //Constructor
-//        public ViewHolder(View inflate, OnItemClickListener onItemClickListener) {
-//            super(inflate);
-//            deleteItem.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    onItemClickListener.OnItemClick(getAdapterPosition());
-//                }
-//            });
-//        }
     }
 }

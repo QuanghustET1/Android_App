@@ -6,6 +6,9 @@ public class userDomain implements Serializable {
     private String userName;
     private String userPassword;
 
+    public userDomain() {
+    }
+
     public userDomain(String userName, String userPassword) {
         this.userName = userName;
         this.userPassword = userPassword;
@@ -25,5 +28,13 @@ public class userDomain implements Serializable {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "userDomain{" +
+                "userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                '}';
     }
 }

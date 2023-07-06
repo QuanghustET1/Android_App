@@ -1,5 +1,6 @@
 package com.android.project_androidapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,13 @@ import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class ShowDetailActivity extends AppCompatActivity {
     private TextView detailTitile, detailFoodFee, detailNumOrder, detailMinusCart, detailPlusCart, detailFoodDetail, detail_addToCartBtn;
@@ -20,11 +28,13 @@ public class ShowDetailActivity extends AppCompatActivity {
     private foodDomain object;
     private int numOder = 1;
     private Database database_;
+    private DatabaseReference db_cartManage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
         database_ = new Database(this);
+        db_cartManage = FirebaseDatabase.getInstance().getReference("db_cartManage");
         initView();
         getBundle();
     }
@@ -36,6 +46,7 @@ public class ShowDetailActivity extends AppCompatActivity {
         int drawableResource = this.getResources().getIdentifier(this.object.getPic(), "drawable", this.getPackageName());
         //load ảnh lấy được ở trên vào detailFoodImg trong Activity này
         Glide.with(this).load(drawableResource).into(this.detailFoodImg);
+        this.object.setNumberInCart(numOder);
         this.detailTitile.setText(object.getTitle());
         this.detailFoodDetail.setText(object.getDescription());
         this.detailFoodFee.setText(String.valueOf(object.getFee()));
@@ -49,6 +60,7 @@ public class ShowDetailActivity extends AppCompatActivity {
                 else{
                     ShowDetailActivity.this.numOder -= 1;
                     ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(ShowDetailActivity.this.numOder));
+                    object.setNumberInCart(numOder);
                 }
             }
         });
@@ -57,15 +69,14 @@ public class ShowDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ShowDetailActivity.this.numOder += 1;
                 ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(ShowDetailActivity.this.numOder));
+                object.setNumberInCart(numOder);
             }
         });
         this.detail_addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("addToCart", "clicked");
-                object.setNumberInCart(ShowDetailActivity.this.numOder);
-                database_.insertFoodToCart(object, MainActivity.user.getUserName());
-                startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", database_.getListFoodFromCart()));
+                ShowDetailActivity.this.db_cartManage.child(object.getTitle()+"-"+MainActivity.user.getUserName()).setValue(object);
+                startActivity(new Intent(ShowDetailActivity.this, CartManager.class));
             }
         });
     }

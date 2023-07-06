@@ -172,14 +172,14 @@
 
                     <ImageView
                         android:id="@+id/imageViewHome"
-                        android:layout_width="match_parent"
+                        android:layout_width="85dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/home" />
+                        app:srcCompat="@drawable/home_option" />
 
                     <TextView
                         android:id="@+id/textViewHome"
-                        android:layout_width="match_parent"
+                        android:layout_width="86dp"
                         android:layout_height="wrap_content"
                         android:text="Home"
                         android:textAlignment="center"
@@ -196,13 +196,13 @@
 
                     <ImageView
                         android:id="@+id/imageViewProfile"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="45dp"
-                        app:srcCompat="@drawable/user" />
+                        app:srcCompat="@drawable/profile_option" />
 
                     <TextView
                         android:id="@+id/textViewProfile"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Profile"
                         android:textAlignment="center"
@@ -221,7 +221,7 @@
                         android:id="@+id/imageViewSupport"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        app:srcCompat="@drawable/support" />
+                        app:srcCompat="@drawable/support_option" />
 
                     <TextView
                         android:id="@+id/textViewSupport"
@@ -244,7 +244,7 @@
                         android:id="@+id/imageViewSetting"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        app:srcCompat="@drawable/setting" />
+                        app:srcCompat="@drawable/setting_option" />
 
                     <TextView
                         android:id="@+id/textViewSetting"
@@ -265,10 +265,9 @@
             android:id="@+id/btnShowListCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/magenta"
+            android:backgroundTint="@color/orange"
             android:elevation="3dp"
             android:src="@drawable/shopping_cart"
-            app:backgroundTint="@color/magenta"
             app:layout_anchor="@id/app_bar"></com.google.android.material.floatingactionbutton.FloatingActionButton>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
