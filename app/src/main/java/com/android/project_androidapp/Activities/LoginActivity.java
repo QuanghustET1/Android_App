@@ -50,44 +50,36 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getLoginInfor() {
-        this.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String userName = String.valueOf(LoginActivity.this.inputUsername.getText());
-                String userPassword =  String.valueOf(LoginActivity.this.inputPassword.getText());
-                LoginActivity.this.mDatabaseUser.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        boolean success = false;
-                        for(DataSnapshot ds : snapshot.getChildren()){
-                            userDomain userTemp = new userDomain(ds.getValue(userDomain.class).getUserName(), ds.getValue(userDomain.class).getUserPassword());
-                            if(userName.equals(userTemp.getUserName()) && userPassword.equals(userTemp.getUserPassword())){
-                                success = true;
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", new userDomain(userName, userPassword)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                break;
-                            }
-                        }
-                        if(success == false){
-                            Toast.makeText(LoginActivity.this, "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+        this.btnLogin.setOnClickListener(view -> {
+            String userName = String.valueOf(LoginActivity.this.inputUsername.getText());
+            String userPassword =  String.valueOf(LoginActivity.this.inputPassword.getText());
+            LoginActivity.this.mDatabaseUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean success = false;
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        userDomain userTemp = new userDomain(ds.getValue(userDomain.class).getUserName(), ds.getValue(userDomain.class).getUserPassword());
+                        if(userName.equals(userTemp.getUserName()) && userPassword.equals(userTemp.getUserPassword())){
+                            success = true;
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", new userDomain(userName, userPassword)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            break;
                         }
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                    if(success == false){
+                        Toast.makeText(LoginActivity.this, "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         });
     }
 
     private void RegisterPage() {
-        this.registerPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-            }
-        });
+        this.registerPage.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
     }
 
     private void initView() {

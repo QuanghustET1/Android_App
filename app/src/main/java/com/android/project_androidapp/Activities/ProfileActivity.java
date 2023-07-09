@@ -11,6 +11,8 @@ import com.android.project_androidapp.R;
 
 public class ProfileActivity extends AppCompatActivity {
     private LinearLayout profile_signout;
+    private LinearLayout historyOrder;
+    private LinearLayout editPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +23,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initView() {
         this.profile_signout = findViewById(R.id.profile_signout);
-        this.profile_signout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-            }
-        });
+        this.profile_signout.setOnClickListener(view -> startActivity(new Intent(ProfileActivity.this, LoginActivity.class)));
+        this.historyOrder = findViewById(R.id.historyOrder);
+        this.historyOrder.setOnClickListener(view -> startActivity(new Intent(ProfileActivity.this, OrderHistory.class)));
+        this.editPassword = findViewById(R.id.editPassword);
+        this.editPassword.setOnClickListener(view -> startActivity(new Intent(ProfileActivity.this, editPassProfile.class)));
     }
 }

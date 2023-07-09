@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout profileBtn;
     protected static userDomain user;
     private long backPressedTime;
+    private LinearLayout support;
+    private LinearLayout setting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
         this.user = (userDomain) getIntent().getSerializableExtra("user");
         setWelcomeText();
         forwardToProfilePage();
+        otherEvent();
+    }
+
+    private void otherEvent() {
+        this.support = findViewById(R.id.support);
+        this.setting = findViewById(R.id.setting);
+        this.support.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, Blabla.class));
+        });
+        this.setting.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, Blabla.class));
+        });
     }
 
     @Override
@@ -68,12 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void forwardToProfilePage() {
         this.profileBtn = findViewById(R.id.profile);
-        this.profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-            }
-        });
+        this.profileBtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
     }
 
     private void setWelcomeText() {
@@ -95,12 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showListCartManager() {
         this.btnShowListCart = findViewById(R.id.btnShowListCart);
-        this.btnShowListCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CartManager.class));
-            }
-        });
+        this.btnShowListCart.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, CartManager.class)));
     }
 
     private void popularViewFood() {

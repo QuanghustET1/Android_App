@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Project_AndroidApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.Blabla"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.editPassProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.OrderHistory"
+            android:exported="false" />
+        <activity
             android:name=".Activities.OrderSuccessActivity"
             android:exported="false" />
         <activity

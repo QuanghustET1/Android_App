@@ -6,27 +6,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.project_androidapp.Adapter.OrderItemAdapter;
-import com.android.project_androidapp.Domain.OrderHistory;
+import com.android.project_androidapp.Domain.OrderHistoryFood;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class OrderActivity extends AppCompatActivity {
     private EditText addressInput;
@@ -61,23 +55,20 @@ public class OrderActivity extends AppCompatActivity {
         this.transportation_costs.setText(String.valueOf(shipCost));
         this.reduce_transportation_costs.setText(String.valueOf(reduceShipCost));
         this.finalPrice.setText(String.valueOf(sumPrice+shipCost-reduceShipCost));
-        this.OrderNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(String.valueOf(OrderActivity.this.addressInput.getText()).equals("") || String.valueOf(OrderActivity.this.phoneInput.getText()).equals("")){
-                    Toast.makeText(OrderActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+        this.OrderNow.setOnClickListener(view -> {
+            if(String.valueOf(OrderActivity.this.addressInput.getText()).equals("") || String.valueOf(OrderActivity.this.phoneInput.getText()).equals("")){
+                Toast.makeText(OrderActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                for(foodDomain food : OrderActivity.this.listOrderFood){
+                    String dateTime = LocalDateTime.now().toString();
+                    String date = dateTime.split("T")[0];
+                    String time = dateTime.split("T")[1].split("[.]")[0];
+                    OrderHistoryFood foodOrder = new OrderHistoryFood(food.getTitle(), food.getPic(), food.getNumberInCart(), food.getFee()* food.getNumberInCart(),String.valueOf(OrderActivity.this.addressInput.getText()), String.valueOf(OrderActivity.this.phoneInput.getText()), date);
+                    OrderActivity.this.db_historyOrder.child(MainActivity.user.getUserName()+"-"+foodOrder.getFoodName()+"-"+ time).setValue(foodOrder);
                 }
-                else {
-                    for(foodDomain food : OrderActivity.this.listOrderFood){
-                        String dateTime = LocalDateTime.now().toString();
-                        String date = dateTime.split("T")[0];
-                        String time = dateTime.split("T")[1].split("[.]")[0];
-                        OrderHistory foodOrder = new OrderHistory(food.getTitle(), food.getPic(), food.getNumberInCart(), food.getFee()* food.getNumberInCart(),String.valueOf(OrderActivity.this.addressInput.getText()), String.valueOf(OrderActivity.this.phoneInput.getText()), date);
-                        OrderActivity.this.db_historyOrder.child(MainActivity.user.getUserName()+"-"+foodOrder.getFoodName()+"-"+ time).setValue(foodOrder);
-                    }
 
-                    startActivity(new Intent(OrderActivity.this, OrderSuccessActivity.class));
-                }
+                startActivity(new Intent(OrderActivity.this, OrderSuccessActivity.class));
             }
         });
     }

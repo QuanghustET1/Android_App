@@ -84,26 +84,20 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                 .load(drawableResourceId)
                 .into(holder.avtItem);
         int n = position;
-        holder.minusItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(foodDomains.get(n).getNumberInCart() > 1){
-                    foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() - 1);
-                    holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
-                    holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-//                    dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).setValue(foodDomains.get(n));
-                    dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).child("numberInCart").setValue(foodDomains.get(n).getNumberInCart());
-                }
-            }
-        });
-        holder.plusItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() + 1);
+        holder.minusItem.setOnClickListener(view -> {
+            if(foodDomains.get(n).getNumberInCart() > 1){
+                foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() - 1);
                 holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                 holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
+//                    dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).setValue(foodDomains.get(n));
                 dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).child("numberInCart").setValue(foodDomains.get(n).getNumberInCart());
             }
+        });
+        holder.plusItem.setOnClickListener(view -> {
+            foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() + 1);
+            holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
+            holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
+            dbManageCart.child(foodDomains.get(n).getTitle()+"-"+listCartItemAdapter.this.userCur).child("numberInCart").setValue(foodDomains.get(n).getNumberInCart());
         });
     }
 

@@ -83,12 +83,7 @@ public class CartManager extends AppCompatActivity {
 
                     }
                 }).attachToRecyclerView(CartManager.this.listItemInCart);
-                CartManager.this.checkoutBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(CartManager.this, OrderActivity.class).putExtra("orderFoodList", listFoodinCart));
-                    }
-                });
+                CartManager.this.checkoutBtn.setOnClickListener(view -> startActivity(new Intent(CartManager.this, OrderActivity.class).putExtra("orderFoodList", listFoodinCart)));
             }
 
             @Override

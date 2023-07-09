@@ -87,14 +87,11 @@ public class popularAdapter extends RecyclerView.Adapter<popularAdapter.ViewHold
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceId)
                 .into(holder.foodImage);
-        holder.addToCartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(holder.itemView.getContext(), ShowDetailActivity.class);
+        holder.addToCartBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), ShowDetailActivity.class);
 
-                intent.putExtra("object", foodDomainsLists.get(n));
-                holder.itemView.getContext().startActivity(intent);
-            }
+            intent.putExtra("object", foodDomainsLists.get(n));
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 

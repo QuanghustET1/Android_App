@@ -78,12 +78,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHo
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceId)
                 .into(holder.categoryPic);
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), showCategoryList.class).putExtra("categoryID", categoryLists.get(n).getCategoryID()));
-            }
-        });
+        holder.mainLayout.setOnClickListener(view -> holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), showCategoryList.class).putExtra("categoryID", categoryLists.get(n).getCategoryID())));
     }
 
 

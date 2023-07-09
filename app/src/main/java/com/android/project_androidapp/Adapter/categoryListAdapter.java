@@ -72,12 +72,7 @@ public class categoryListAdapter extends RecyclerView.Adapter<categoryListAdapte
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceId)
                 .into(holder.categoryItemImg);
-        holder.btnShowCategoryItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), ShowDetailActivity.class).putExtra("object", foodDomainsLists.get(n)));
-            }
-        });
+        holder.btnShowCategoryItem.setOnClickListener(view -> holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), ShowDetailActivity.class).putExtra("object", foodDomainsLists.get(n))));
     }
 
 

@@ -39,55 +39,47 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUpAccount() {
-        this.btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final int[] checkCountState = {1};
-                String usernameSignUp = String.valueOf(SignUpActivity.this.registerUsername.getText());
-                String passwordSignUp = String.valueOf(SignUpActivity.this.registerPassword.getText());
-                String rePasswordSignUp = String.valueOf(SignUpActivity.this.re_registerPassword.getText());
-                if(passwordSignUp.equals(rePasswordSignUp) == false){
-                    Toast.makeText(SignUpActivity.this, "Password not match!", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    SignUpActivity.this.databaseUser.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            boolean isExistsUser = false;
-                            for(DataSnapshot ds : snapshot.getChildren()){
-                                if(ds.getValue(userDomain.class).getUserName().equals(usernameSignUp)){
-                                    isExistsUser = true;
-                                }
-                            }
-                            if(isExistsUser == false){
-                                SignUpActivity.this.databaseUser.child(usernameSignUp+"_"+passwordSignUp).setValue(new userDomain(usernameSignUp, passwordSignUp));
-                                Toast.makeText(SignUpActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                checkCountState[0] += 1;
-                                finish();
-                            }
-                            else if(isExistsUser == true && checkCountState[0] == 1){
-                                Toast.makeText(SignUpActivity.this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
+        this.btnRegister.setOnClickListener(view -> {
+            final int[] checkCountState = {1};
+            String usernameSignUp = String.valueOf(SignUpActivity.this.registerUsername.getText());
+            String passwordSignUp = String.valueOf(SignUpActivity.this.registerPassword.getText());
+            String rePasswordSignUp = String.valueOf(SignUpActivity.this.re_registerPassword.getText());
+            if(passwordSignUp.equals(rePasswordSignUp) == false){
+                Toast.makeText(SignUpActivity.this, "Password not match!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                SignUpActivity.this.databaseUser.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean isExistsUser = false;
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            if(ds.getValue(userDomain.class).getUserName().equals(usernameSignUp)){
+                                isExistsUser = true;
                             }
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
+                        if(isExistsUser == false){
+                            SignUpActivity.this.databaseUser.child(usernameSignUp+"_"+passwordSignUp).setValue(new userDomain(usernameSignUp, passwordSignUp));
+                            Toast.makeText(SignUpActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            checkCountState[0] += 1;
+                            finish();
                         }
-                    });
-                }
+                        else if(isExistsUser == true && checkCountState[0] == 1){
+                            Toast.makeText(SignUpActivity.this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
     }
 
     private void LoginPage() {
-        this.loginPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-            }
-        });
+        this.loginPage.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
     }
 
     private void initView() {

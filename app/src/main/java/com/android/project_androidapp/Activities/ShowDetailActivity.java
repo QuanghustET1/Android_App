@@ -51,33 +51,24 @@ public class ShowDetailActivity extends AppCompatActivity {
         this.detailFoodDetail.setText(object.getDescription());
         this.detailFoodFee.setText(String.valueOf(object.getFee()));
         this.detailNumOrder.setText(String.valueOf(numOder));
-        this.detailMinusCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ShowDetailActivity.this.numOder == 0){
-                    ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(0));
-                }
-                else{
-                    ShowDetailActivity.this.numOder -= 1;
-                    ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(ShowDetailActivity.this.numOder));
-                    object.setNumberInCart(numOder);
-                }
+        this.detailMinusCart.setOnClickListener(view -> {
+            if(ShowDetailActivity.this.numOder == 0){
+                ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(0));
             }
-        });
-        this.detailPlusCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowDetailActivity.this.numOder += 1;
+            else{
+                ShowDetailActivity.this.numOder -= 1;
                 ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(ShowDetailActivity.this.numOder));
                 object.setNumberInCart(numOder);
             }
         });
-        this.detail_addToCartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowDetailActivity.this.db_cartManage.child(object.getTitle()+"-"+MainActivity.user.getUserName()).setValue(object);
-                startActivity(new Intent(ShowDetailActivity.this, CartManager.class));
-            }
+        this.detailPlusCart.setOnClickListener(view -> {
+            ShowDetailActivity.this.numOder += 1;
+            ShowDetailActivity.this.detailNumOrder.setText(String.valueOf(ShowDetailActivity.this.numOder));
+            object.setNumberInCart(numOder);
+        });
+        this.detail_addToCartBtn.setOnClickListener(view -> {
+            ShowDetailActivity.this.db_cartManage.child(object.getTitle()+"-"+MainActivity.user.getUserName()).setValue(object);
+            startActivity(new Intent(ShowDetailActivity.this, CartManager.class));
         });
     }
 

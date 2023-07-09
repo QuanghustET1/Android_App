@@ -21,13 +21,10 @@ public class IntroActivity extends AppCompatActivity {
     //Ham nay de set Intent ket noi sang Activity khac(Main)
     private void connectStartBtn() {
         this.startBtn = findViewById(R.id.startBtn);
-        this.startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Khoi chay mot Intent bang cach goi ham startActivity va truyen vao Intent
-                //Intent se gom Activity hien tai va Activity can forward
-                startActivity(new Intent(IntroActivity.this, MainActivity.class));
-            }
+        this.startBtn.setOnClickListener(view -> {
+            //Khoi chay mot Intent bang cach goi ham startActivity va truyen vao Intent
+            //Intent se gom Activity hien tai va Activity can forward
+            startActivity(new Intent(IntroActivity.this, MainActivity.class));
         });
     }
 }
